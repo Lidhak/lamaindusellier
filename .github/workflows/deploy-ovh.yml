@@ -1,0 +1,78 @@
+name: Deploy OVH
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-ovh-lamaindusellier
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to OVH
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+    timeout-minutes: 15
+    env:
+      OVH_HOST: ${{ secrets.OVH_HOST }}
+      OVH_USER: ${{ secrets.OVH_USER }}
+      OVH_SSH_PORT: ${{ secrets.OVH_SSH_PORT }}
+      OVH_APP_DIR: ${{ secrets.OVH_APP_DIR }}
+      OVH_SSH_PRIVATE_KEY: ${{ secrets.OVH_SSH_PRIVATE_KEY }}
+      OVH_BRANCH: main
+
+    steps:
+      - name: Validate required secrets
+        run: |
+          set -euo pipefail
+          test -n "$OVH_HOST" || (echo "Missing OVH_HOST" && exit 1)
+          test -n "$OVH_USER" || (echo "Missing OVH_USER" && exit 1)
+          test -n "$OVH_SSH_PRIVATE_KEY" || (echo "Missing OVH_SSH_PRIVATE_KEY" && exit 1)
+
+      - name: Configure SSH
+        run: |
+          set -euo pipefail
+          PORT="${OVH_SSH_PORT:-22}"
+          install -m 700 -d ~/.ssh
+          cat <<'KEY' > ~/.ssh/id_ed25519
+          $OVH_SSH_PRIVATE_KEY
+          KEY
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$PORT" -H "$OVH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy on OVH server
+        run: |
+          set -euo pipefail
+          PORT="${OVH_SSH_PORT:-22}"
+          APP_DIR="${OVH_APP_DIR:-/var/www/lamaindusellier}"
+          ssh -p "$PORT" "$OVH_USER@$OVH_HOST" "APP_DIR='$APP_DIR' BRANCH='$OVH_BRANCH' bash -s" <<'EOFSSH'
+          set -euo pipefail
+          if [ ! -d "$APP_DIR/.git" ]; then
+            echo "Repository not found in $APP_DIR"
+            echo "Run deploy/README_OVH.md first setup on server."
+            exit 1
+          fi
+
+          cd "$APP_DIR"
+          git fetch origin "$BRANCH"
+          git checkout "$BRANCH"
+          git pull --ff-only origin "$BRANCH"
+
+          if command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
+            sudo nginx -t
+            sudo systemctl reload nginx
+          else
+            echo "No passwordless sudo: skipped nginx reload"
+          fi
+
+          if command -v curl >/dev/null 2>&1; then
+            curl -fsS http://127.0.0.1/ >/dev/null || true
+          fi
+          EOFSSH

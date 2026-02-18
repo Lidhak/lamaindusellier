@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate site files
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f assets/styles.css
+          test -f assets/script.js
+          test -f deploy/nginx.lamaindusellier.conf
+          test -f deploy/ovh-deploy.sh
+
+      - name: Basic content checks
+        run: |
+          set -euo pipefail
+          grep -q "La Main du Sellier" index.html
+          grep -q "Restauration" index.html
