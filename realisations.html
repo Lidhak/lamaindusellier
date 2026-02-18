@@ -8,6 +8,14 @@
       name="description"
       content="Galerie de realisations en sellerie artisanale moto, bateau et canape."
     />
+    <meta name="theme-color" content="#1f1712" />
+    <meta property="og:title" content="Realisations | La Main du Sellier" />
+    <meta
+      property="og:description"
+      content="Realisations artisanales de sellerie: moto, bateau et canape."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lamaindusellier.fr/realisations.html" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,23 +23,69 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
+    <script defer src="assets/script.js"></script>
   </head>
   <body class="realisations-page">
-    <main class="portfolio-only" aria-label="Galerie des realisations">
-      <div class="portfolio-grid portfolio-grid-only">
-        <figure class="portfolio-item is-before"><img src="assets/images/realisations/moto-01.jpg" alt="Avant restauration selle de moto" loading="lazy" /></figure>
-        <figure class="portfolio-item is-after"><img src="assets/images/realisations/moto-01.jpg" alt="Apres restauration selle de moto" loading="lazy" /></figure>
-        <figure class="portfolio-item is-before"><img src="assets/images/realisations/moto-02.jpg" alt="Avant refection sellerie moto custom" loading="lazy" /></figure>
-        <figure class="portfolio-item is-after"><img src="assets/images/realisations/moto-02.jpg" alt="Apres refection sellerie moto custom" loading="lazy" /></figure>
-        <figure class="portfolio-item is-before"><img src="assets/images/realisations/bateau-01.jpg" alt="Avant renovation sellerie bateau cabine" loading="lazy" /></figure>
-        <figure class="portfolio-item is-after"><img src="assets/images/realisations/bateau-01.jpg" alt="Apres renovation sellerie bateau cabine" loading="lazy" /></figure>
-        <figure class="portfolio-item is-before"><img src="assets/images/realisations/bateau-02.jpg" alt="Avant remise en etat sellerie bateau" loading="lazy" /></figure>
-        <figure class="portfolio-item is-after"><img src="assets/images/realisations/bateau-02.jpg" alt="Apres remise en etat sellerie bateau" loading="lazy" /></figure>
-        <figure class="portfolio-item is-before"><img src="assets/images/realisations/canape-01.jpg" alt="Avant restauration canape cuir" loading="lazy" /></figure>
-        <figure class="portfolio-item is-after"><img src="assets/images/realisations/canape-01.jpg" alt="Apres restauration canape cuir" loading="lazy" /></figure>
-        <figure class="portfolio-item is-before"><img src="assets/images/realisations/canape-02.jpg" alt="Avant refection canape sellerie ameublement" loading="lazy" /></figure>
-        <figure class="portfolio-item is-after"><img src="assets/images/realisations/canape-02.jpg" alt="Apres refection canape sellerie ameublement" loading="lazy" /></figure>
-      </div>
+    <div class="ambient-layer" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="logo" href="index.html#top" aria-label="Accueil La Main du Sellier">
+        <span class="logo-mark" aria-hidden="true">LMS</span>
+        <span class="logo-content">
+          <span class="logo-text">La Main du Sellier</span>
+          <span class="logo-tricolor" aria-hidden="true">
+            <span class="stripe-blue"></span>
+            <span class="stripe-white"></span>
+            <span class="stripe-red"></span>
+          </span>
+        </span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
+        <a href="index.html#services">Prestations</a>
+        <a href="realisations.html">Realisations</a>
+        <a href="index.html#process">Methode</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <a class="btn btn-outline desktop-only" href="index.html#contact">Demander un devis</a>
+    </header>
+
+    <main id="top" class="realisations-main" aria-label="Galerie des realisations">
+      <section class="realisations-carousel-wrap">
+        <div class="realisations-carousel" data-carousel data-interval="2000">
+          <figure class="carousel-slide is-active">
+            <img src="assets/images/realisations/moto-01.jpg" alt="Sellerie moto artisanale renovee" loading="lazy" />
+          </figure>
+          <figure class="carousel-slide">
+            <img src="assets/images/realisations/moto-02.jpg" alt="Selle moto custom retravaillee a la main" loading="lazy" />
+          </figure>
+          <figure class="carousel-slide">
+            <img src="assets/images/realisations/bateau-01.jpg" alt="Interieur sellerie bateau apres renovation artisanale" loading="lazy" />
+          </figure>
+          <figure class="carousel-slide">
+            <img src="assets/images/realisations/bateau-02.jpg" alt="Cabine bateau avec sellerie remise en etat" loading="lazy" />
+          </figure>
+          <figure class="carousel-slide">
+            <img src="assets/images/realisations/canape-01.jpg" alt="Canape restaure en sellerie d'ameublement" loading="lazy" />
+          </figure>
+          <figure class="carousel-slide">
+            <img src="assets/images/realisations/canape-02.jpg" alt="Canape cuir retravaille en atelier artisanal" loading="lazy" />
+          </figure>
+        </div>
+      </section>
     </main>
   </body>
 </html>
