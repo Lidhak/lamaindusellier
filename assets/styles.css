@@ -375,7 +375,7 @@ body {
   margin-top: 1.35rem;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.7rem;
+  gap: 0.6rem;
 }
 
 .portfolio-item {
@@ -383,7 +383,8 @@ body {
   border: 1px solid var(--line);
   border-radius: 0.85rem;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 11;
+  max-height: 168px;
   background: #d5c2ac;
 }
 
@@ -632,6 +633,10 @@ textarea:focus-visible {
   .testimonial-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .portfolio-item {
+    max-height: 150px;
+  }
 }
 
 @media (max-width: 680px) {
@@ -642,10 +647,18 @@ textarea:focus-visible {
   .hero-metrics,
   .service-grid,
   .project-grid,
-  .portfolio-grid,
   .process-list,
   .testimonial-grid {
     grid-template-columns: 1fr;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .portfolio-item {
+    max-height: 132px;
   }
 
   .hero-metrics li {
