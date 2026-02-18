@@ -64,22 +64,18 @@ if (feedbackNode) {
 const carousels = document.querySelectorAll("[data-carousel]");
 
 carousels.forEach((carousel) => {
-  const slides = carousel.querySelectorAll(".carousel-slide");
+  const track = carousel.querySelector(".carousel-track");
+  if (!track) return;
+
+  const slides = track.querySelectorAll(".carousel-slide");
   if (slides.length < 2) return;
 
   let currentIndex = 0;
   const intervalMs = Number(carousel.getAttribute("data-interval")) || 2000;
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  slides.forEach((slide, index) => {
-    slide.classList.toggle("is-active", index === currentIndex);
-  });
-
-  if (prefersReducedMotion) return;
+  track.style.transform = "translateX(0)";
 
   window.setInterval(() => {
-    slides[currentIndex].classList.remove("is-active");
     currentIndex = (currentIndex + 1) % slides.length;
-    slides[currentIndex].classList.add("is-active");
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
   }, intervalMs);
 });
