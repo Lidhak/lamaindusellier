@@ -65,6 +65,11 @@ body {
   color: var(--ink);
 }
 
+.logo-content {
+  display: grid;
+  gap: 0.15rem;
+}
+
 .logo-mark {
   width: 2.1rem;
   height: 2.1rem;
@@ -83,6 +88,32 @@ body {
   font-weight: 700;
   font-size: 1.6rem;
   line-height: 1;
+}
+
+.logo-tricolor {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.18rem;
+  width: min(210px, 100%);
+  height: 0.3rem;
+}
+
+.logo-tricolor span {
+  display: block;
+  border-radius: 999px;
+}
+
+.stripe-blue {
+  background: #0a53a4;
+}
+
+.stripe-white {
+  background: #f7f7f7;
+  border: 1px solid rgba(34, 25, 20, 0.2);
+}
+
+.stripe-red {
+  background: #db3f34;
 }
 
 .main-nav {
@@ -395,6 +426,42 @@ body {
   object-fit: cover;
   transform: scale(1.001);
   transition: transform 0.5s ease;
+}
+
+.portfolio-item.is-before {
+  position: relative;
+}
+
+.portfolio-item.is-after {
+  position: relative;
+}
+
+.portfolio-item.is-before::after,
+.portfolio-item.is-after::after {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  border-radius: 999px;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.portfolio-item.is-before::after {
+  content: "Avant";
+  background: rgba(34, 25, 20, 0.75);
+}
+
+.portfolio-item.is-after::after {
+  content: "Apres";
+  background: rgba(28, 95, 50, 0.82);
+}
+
+.portfolio-item.is-before img {
+  filter: saturate(0.45) contrast(0.88) brightness(0.84);
 }
 
 .portfolio-item:hover img,
