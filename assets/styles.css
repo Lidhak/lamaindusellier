@@ -342,39 +342,25 @@ body {
   font-size: 0.9rem;
 }
 
-.project-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.project-photo {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #ccb7a2;
 }
 
-.project-block {
-  min-height: 150px;
-  display: grid;
-  place-items: end start;
-  padding: 0.75rem;
+.project-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition: transform 0.7s ease;
 }
 
-.project-block span {
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.28rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(31, 23, 18, 0.2);
-}
-
-.project-before {
-  background:
-    radial-gradient(120px 80px at 20% 20%, rgba(255, 255, 255, 0.22), transparent),
-    linear-gradient(140deg, #645049, #3f302b);
-}
-
-.project-after {
-  background:
-    radial-gradient(100px 80px at 80% 15%, rgba(255, 255, 255, 0.3), transparent),
-    linear-gradient(140deg, #d6b189, #9f693f);
+.project-card:hover .project-photo img,
+.project-card:focus-within .project-photo img {
+  transform: scale(1.05);
 }
 
 .process-list {
@@ -586,8 +572,7 @@ textarea:focus-visible {
   .service-grid,
   .project-grid,
   .process-list,
-  .testimonial-grid,
-  .project-split {
+  .testimonial-grid {
     grid-template-columns: 1fr;
   }
 
