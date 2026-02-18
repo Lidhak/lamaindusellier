@@ -487,9 +487,10 @@ body {
 }
 
 .realisations-carousel {
-  width: min(760px, 90vw);
-  height: min(40vh, 320px);
-  min-height: 220px;
+  width: min(1200px, 96vw);
+  height: clamp(260px, 50vh, 620px);
+  height: clamp(260px, 50svh, 620px);
+  min-height: 260px;
   margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: 1.1rem;
@@ -789,9 +790,10 @@ textarea:focus-visible {
   }
 
   .realisations-carousel {
-    width: min(720px, 92vw);
-    height: min(38vh, 300px);
-    min-height: 210px;
+    width: min(1200px, 94vw);
+    height: clamp(240px, 50vh, 520px);
+    height: clamp(240px, 50svh, 520px);
+    min-height: 240px;
   }
 
   .hero-metrics li {
