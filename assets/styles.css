@@ -344,7 +344,8 @@ body {
 
 .project-photo {
   margin: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
+  max-height: 220px;
   overflow: hidden;
   background: #ccb7a2;
 }
@@ -354,6 +355,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 38%;
   transform: scale(1.001);
   transition: transform 0.7s ease;
 }
