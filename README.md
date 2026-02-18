@@ -1,14 +1,6 @@
 # La Main du Sellier
 
-Site vitrine pour l'atelier **La Main du Sellier**.
-
-## Positionnement
-
-Restauration artisanale de sellerie:
-
-- automobile (collection et moderne)
-- moto (touring, custom, sport)
-- finitions sur mesure (cuir, alcantara, surpiqures)
+Site vitrine pour l'atelier **La Main du Sellier** (restauration artisanale de sellerie auto/moto).
 
 ## Stack
 
@@ -16,7 +8,7 @@ Restauration artisanale de sellerie:
 - CSS
 - JavaScript (vanilla)
 
-## Lancer localement
+## Local
 
 ```bash
 cd /Users/khalidmokhtari/lamaindusellier
@@ -25,16 +17,19 @@ python3 -m http.server 8080
 
 Puis ouvrir `http://localhost:8080`.
 
-## Deploy OVH (GitHub -> OVH)
+## Deploiement OVH Web Cloud
 
-Le code reste sur GitHub.
-Le site est heberge sur OVH.
+Le code reste sur GitHub et le site est deploye automatiquement vers OVH via SFTP.
 
-- CI: `.github/workflows/ci.yml`
-- Deploy: `.github/workflows/deploy-ovh.yml`
-- Setup serveur: `deploy/README_OVH.md`
+- Workflow CI: `.github/workflows/ci.yml`
+- Workflow deploy: `.github/workflows/deploy-ovh.yml`
+- Guide OVH: `deploy/README_OVH.md`
 
-## Domaine
+Secret requis:
+
+- `OVH_SFTP_PASSWORD`
+
+Domaine cible:
 
 - `https://lamaindusellier.fr`
 - `https://www.lamaindusellier.fr`

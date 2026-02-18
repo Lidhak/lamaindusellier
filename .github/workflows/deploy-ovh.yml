@@ -1,4 +1,4 @@
-name: Deploy OVH
+name: Deploy OVH Web Cloud
 
 on:
   workflow_run:
@@ -11,68 +11,58 @@ permissions:
   contents: read
 
 concurrency:
-  group: deploy-ovh-lamaindusellier
+  group: deploy-ovh-webcloud-lamaindusellier
   cancel-in-progress: false
 
 jobs:
   deploy:
-    name: Deploy to OVH
+    name: Deploy via SFTP
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
     timeout-minutes: 15
     env:
-      OVH_HOST: ${{ secrets.OVH_HOST }}
-      OVH_USER: ${{ secrets.OVH_USER }}
-      OVH_SSH_PORT: ${{ secrets.OVH_SSH_PORT }}
-      OVH_APP_DIR: ${{ secrets.OVH_APP_DIR }}
-      OVH_SSH_PRIVATE_KEY: ${{ secrets.OVH_SSH_PRIVATE_KEY }}
-      OVH_BRANCH: main
+      OVH_SFTP_HOST: ftp.cluster121.hosting.ovh.net
+      OVH_SFTP_PORT: "22"
+      OVH_SFTP_USER: lamainn
+      OVH_REMOTE_DIR: /www
+      OVH_SFTP_PASSWORD: ${{ secrets.OVH_SFTP_PASSWORD }}
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Validate required secrets
         run: |
           set -euo pipefail
-          test -n "$OVH_HOST" || (echo "Missing OVH_HOST" && exit 1)
-          test -n "$OVH_USER" || (echo "Missing OVH_USER" && exit 1)
-          test -n "$OVH_SSH_PRIVATE_KEY" || (echo "Missing OVH_SSH_PRIVATE_KEY" && exit 1)
+          test -n "$OVH_SFTP_PASSWORD" || (echo "Missing OVH_SFTP_PASSWORD secret" && exit 1)
 
-      - name: Configure SSH
+      - name: Prepare deploy bundle
         run: |
           set -euo pipefail
-          PORT="${OVH_SSH_PORT:-22}"
-          install -m 700 -d ~/.ssh
-          cat <<'KEY' > ~/.ssh/id_ed25519
-          $OVH_SSH_PRIVATE_KEY
-          KEY
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p "$PORT" -H "$OVH_HOST" >> ~/.ssh/known_hosts
+          rm -rf dist
+          mkdir -p dist/assets
+          cp index.html dist/index.html
+          cp -R assets/. dist/assets/
 
-      - name: Deploy on OVH server
+      - name: Install lftp
         run: |
           set -euo pipefail
-          PORT="${OVH_SSH_PORT:-22}"
-          APP_DIR="${OVH_APP_DIR:-/var/www/lamaindusellier}"
-          ssh -p "$PORT" "$OVH_USER@$OVH_HOST" "APP_DIR='$APP_DIR' BRANCH='$OVH_BRANCH' bash -s" <<'EOFSSH'
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Upload to OVH SFTP
+        run: |
           set -euo pipefail
-          if [ ! -d "$APP_DIR/.git" ]; then
-            echo "Repository not found in $APP_DIR"
-            echo "Run deploy/README_OVH.md first setup on server."
-            exit 1
-          fi
+          lftp -u "$OVH_SFTP_USER","$OVH_SFTP_PASSWORD" "sftp://$OVH_SFTP_HOST:$OVH_SFTP_PORT" <<EOF_LFTP
+          set cmd:fail-exit yes
+          set sftp:auto-confirm yes
+          set net:timeout 20
+          set net:max-retries 2
+          mirror -R --delete --verbose ./dist/ $OVH_REMOTE_DIR
+          bye
+EOF_LFTP
 
-          cd "$APP_DIR"
-          git fetch origin "$BRANCH"
-          git checkout "$BRANCH"
-          git pull --ff-only origin "$BRANCH"
-
-          if command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
-            sudo nginx -t
-            sudo systemctl reload nginx
-          else
-            echo "No passwordless sudo: skipped nginx reload"
-          fi
-
-          if command -v curl >/dev/null 2>&1; then
-            curl -fsS http://127.0.0.1/ >/dev/null || true
-          fi
-          EOFSSH
+      - name: Post-deploy check
+        run: |
+          set -euo pipefail
+          curl -fsS https://lamaindusellier.fr >/dev/null

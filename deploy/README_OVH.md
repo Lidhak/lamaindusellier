@@ -1,83 +1,52 @@
-# Deploiement OVH - La Main du Sellier
+# Deploiement OVH Web Cloud - La Main du Sellier
 
-Ce projet est heberge sur OVH.
-Le code source reste sur GitHub.
+Ce projet est heberge sur **OVH Web Cloud (mutualise)**.
+Le code source reste sur **GitHub**.
 
-## Objectif
+## Architecture
 
-- GitHub = source unique du code.
-- OVH = hebergement web (Nginx) pour `lamaindusellier.fr`.
-- Chaque push sur `main` declenche un deploy automatique vers OVH.
+- GitHub = source de verite du code
+- GitHub Actions = pipeline de deploiement
+- OVH Web Cloud = hebergement public du site
 
-## 1) Premiere installation sur le serveur OVH (remplacement WordPress)
+## Donnees OVH utilisees
 
-> Cette procedure ecrase la config web existante pour ce domaine.
+- Serveur SFTP: `ftp.cluster121.hosting.ovh.net`
+- Port SFTP: `22`
+- Utilisateur: `lamainn`
+- Home: `/home/lamainn`
+- Repertoire web public: `/www`
 
-Option rapide (recommandee):
+## Secret GitHub obligatoire
 
-```bash
-cd /tmp
-git clone https://github.com/Lidhak/lamaindusellier.git lamaindusellier-setup
-sudo bash /tmp/lamaindusellier-setup/deploy/ovh-first-setup.sh
-```
+Dans le repo `Lidhak/lamaindusellier`:
 
-Option manuelle:
+- `Settings` -> `Secrets and variables` -> `Actions` -> `New repository secret`
+- Ajouter: `OVH_SFTP_PASSWORD` = mot de passe FTP/SFTP OVH
 
-```bash
-sudo apt update
-sudo apt install -y nginx git
+## Pipeline
 
-sudo mkdir -p /var/www
-cd /var/www
-
-# Si un ancien dossier WordPress existe pour ce domaine, le sauvegarder puis le retirer
-if [ -d /var/www/lamaindusellier ]; then
-  sudo mv /var/www/lamaindusellier /var/www/lamaindusellier.backup.$(date +%F-%H%M%S)
-fi
-
-sudo git clone https://github.com/Lidhak/lamaindusellier.git /var/www/lamaindusellier
-sudo chown -R $USER:$USER /var/www/lamaindusellier
-```
-
-## 2) Nginx
-
-```bash
-sudo cp /var/www/lamaindusellier/deploy/nginx.lamaindusellier.conf /etc/nginx/sites-available/lamaindusellier
-sudo ln -sf /etc/nginx/sites-available/lamaindusellier /etc/nginx/sites-enabled/lamaindusellier
-
-# Optionnel: retirer un ancien vhost WordPress associe au domaine
-# sudo rm -f /etc/nginx/sites-enabled/wordpress
-
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-## 3) SSL
-
-```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d lamaindusellier.fr -d www.lamaindusellier.fr
-```
-
-## 4) Secrets GitHub Actions a configurer
-
-Dans le repo GitHub `Lidhak/lamaindusellier`, ajouter:
-
-- `OVH_HOST` (IP ou hostname du serveur)
-- `OVH_USER` (utilisateur SSH)
-- `OVH_SSH_PORT` (optionnel, sinon 22)
-- `OVH_APP_DIR` (optionnel, sinon `/var/www/lamaindusellier`)
-- `OVH_SSH_PRIVATE_KEY` (cle privee complete)
-
-## 5) Pipeline automatique
-
-- Workflow CI: `.github/workflows/ci.yml`
-- Workflow deploy OVH: `.github/workflows/deploy-ovh.yml`
-- Script serveur: `deploy/ovh-deploy.sh`
-- Setup one-shot: `deploy/ovh-first-setup.sh`
+- CI: `.github/workflows/ci.yml`
+- Deploy: `.github/workflows/deploy-ovh.yml`
 
 Flux:
 1. Push sur `main`
-2. CI OK
-3. Deploy OVH automatique
-4. Nginx sert la nouvelle version
+2. CI passe
+3. Workflow deploy envoie `index.html` + `assets/` vers `/www` via SFTP
+4. Le site est en ligne sur `lamaindusellier.fr`
+
+## Important (remplacement WordPress)
+
+Le deploy utilise une synchronisation avec `--delete` sur `/www`.
+
+- Les fichiers existants WordPress non presents dans ce repo seront supprimes.
+- C'est le comportement voulu pour basculer vers le site vitrine statique.
+
+## Test rapide local
+
+```bash
+cd /Users/khalidmokhtari/lamaindusellier
+python3 -m http.server 8080
+```
+
+Ouvrir `http://localhost:8080`.

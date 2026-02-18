@@ -24,9 +24,7 @@ jobs:
           test -f index.html
           test -f assets/styles.css
           test -f assets/script.js
-          test -f deploy/nginx.lamaindusellier.conf
-          test -f deploy/ovh-deploy.sh
-          test -f deploy/ovh-first-setup.sh
+          test -f deploy/README_OVH.md
 
       - name: Basic content checks
         run: |
