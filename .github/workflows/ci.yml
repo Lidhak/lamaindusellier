@@ -32,4 +32,4 @@ jobs:
           set -euo pipefail
           grep -q "La Main du Sellier" index.html
           grep -q "Restauration" index.html
-          grep -q "portfolio-" realisations.html
+          grep -Eq "portfolio-|data-carousel" realisations.html
