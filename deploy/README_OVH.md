@@ -13,6 +13,16 @@ Le code source reste sur GitHub.
 
 > Cette procedure ecrase la config web existante pour ce domaine.
 
+Option rapide (recommandee):
+
+```bash
+cd /tmp
+git clone https://github.com/Lidhak/lamaindusellier.git lamaindusellier-setup
+sudo bash /tmp/lamaindusellier-setup/deploy/ovh-first-setup.sh
+```
+
+Option manuelle:
+
 ```bash
 sudo apt update
 sudo apt install -y nginx git
@@ -64,6 +74,7 @@ Dans le repo GitHub `Lidhak/lamaindusellier`, ajouter:
 - Workflow CI: `.github/workflows/ci.yml`
 - Workflow deploy OVH: `.github/workflows/deploy-ovh.yml`
 - Script serveur: `deploy/ovh-deploy.sh`
+- Setup one-shot: `deploy/ovh-first-setup.sh`
 
 Flux:
 1. Push sur `main`

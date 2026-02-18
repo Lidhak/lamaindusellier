@@ -26,6 +26,7 @@ jobs:
           test -f assets/script.js
           test -f deploy/nginx.lamaindusellier.conf
           test -f deploy/ovh-deploy.sh
+          test -f deploy/ovh-first-setup.sh
 
       - name: Basic content checks
         run: |
