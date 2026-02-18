@@ -15,7 +15,7 @@ Le code source reste sur **GitHub**.
 - Port SFTP: `22`
 - Utilisateur: `lamainn`
 - Home: `/home/lamainn`
-- Repertoire web public: `/www`
+- Repertoire web public: `www` (dossier relatif au home SFTP)
 
 ## Secret GitHub obligatoire
 
@@ -32,7 +32,7 @@ Dans le repo `Lidhak/lamaindusellier`:
 Flux:
 1. Push sur `main`
 2. CI passe
-3. Workflow deploy envoie `index.html` + `assets/` vers `/www` via SFTP
+3. Workflow deploy envoie `index.html` + `assets/` vers `www` via SFTP
 4. Le site est en ligne sur `lamaindusellier.fr`
 
 ## Important (remplacement WordPress)
