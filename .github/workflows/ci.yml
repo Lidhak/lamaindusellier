@@ -22,6 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           test -f index.html
+          test -f realisations.html
           test -f assets/styles.css
           test -f assets/script.js
           test -f deploy/README_OVH.md
@@ -31,3 +32,4 @@ jobs:
           set -euo pipefail
           grep -q "La Main du Sellier" index.html
           grep -q "Restauration" index.html
+          grep -q "portfolio-" realisations.html

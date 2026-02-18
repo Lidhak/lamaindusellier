@@ -35,3 +35,4 @@ Domaine cible:
 
 - `https://lamaindusellier.fr`
 - `https://www.lamaindusellier.fr`
+- `https://lamaindusellier.fr/realisations.html`
