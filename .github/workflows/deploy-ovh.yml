@@ -53,7 +53,7 @@ jobs:
       - name: Upload to OVH SFTP
         run: |
           set -euo pipefail
-          lftp -u "$OVH_SFTP_USER","$OVH_SFTP_PASSWORD" "sftp://$OVH_SFTP_HOST:$OVH_SFTP_PORT" -e "set cmd:fail-exit yes; set sftp:auto-confirm yes; set net:timeout 20; set net:max-retries 2; mkdir -p $OVH_REMOTE_DIR; mirror -R --delete --verbose ./dist/ $OVH_REMOTE_DIR; bye"
+          lftp -u "$OVH_SFTP_USER","$OVH_SFTP_PASSWORD" "sftp://$OVH_SFTP_HOST:$OVH_SFTP_PORT" -e "set cmd:fail-exit yes; set sftp:auto-confirm yes; set net:timeout 20; set net:max-retries 2; mirror -R --delete --verbose ./dist/ $OVH_REMOTE_DIR; bye"
 
       - name: Post-deploy check
         run: |
