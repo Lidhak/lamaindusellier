@@ -38,3 +38,25 @@ const yearNode = document.getElementById("year");
 if (yearNode) {
   yearNode.textContent = String(new Date().getFullYear());
 }
+
+const feedbackNode = document.getElementById("contact-feedback");
+if (feedbackNode) {
+  const params = new URLSearchParams(window.location.search);
+  const contactState = params.get("contact");
+
+  if (contactState === "success") {
+    feedbackNode.textContent = "Merci, votre demande a bien ete envoyee.";
+    feedbackNode.classList.add("is-success");
+  } else if (contactState === "error") {
+    feedbackNode.textContent =
+      "Envoi impossible pour le moment. Contactez-nous par telephone au 06 61 64 03 39.";
+    feedbackNode.classList.add("is-error");
+  } else if (contactState === "invalid") {
+    feedbackNode.textContent =
+      "Formulaire incomplet. Merci de verifier votre nom, email, vehicule et projet.";
+    feedbackNode.classList.add("is-error");
+  } else if (contactState === "spam") {
+    feedbackNode.textContent = "Demande refusee.";
+    feedbackNode.classList.add("is-error");
+  }
+}

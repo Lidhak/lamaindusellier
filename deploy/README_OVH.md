@@ -32,7 +32,7 @@ Dans le repo `Lidhak/lamaindusellier`:
 Flux:
 1. Push sur `main`
 2. CI passe
-3. Workflow deploy envoie `index.html` + `assets/` vers `www` via SFTP
+3. Workflow deploy envoie `index.html`, `contact.php` et `assets/` vers `www` via SFTP
 4. Le site est en ligne sur `lamaindusellier.fr`
 
 ## Important (remplacement WordPress)

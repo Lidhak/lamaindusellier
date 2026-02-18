@@ -42,6 +42,7 @@ jobs:
           rm -rf dist
           mkdir -p dist/assets
           cp index.html dist/index.html
+          cp contact.php dist/contact.php
           cp -R assets/. dist/assets/
 
       - name: Install lftp

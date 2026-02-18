@@ -12,10 +12,12 @@ Site vitrine pour l'atelier **La Main du Sellier** (restauration artisanale de s
 
 ```bash
 cd /Users/khalidmokhtari/lamaindusellier
-python3 -m http.server 8080
+php -S localhost:8080
 ```
 
 Puis ouvrir `http://localhost:8080`.
+
+Note: le formulaire contact utilise `contact.php` (envoi mail serveur), donc tester en local avec `php -S` plutot que `python3 -m http.server`.
 
 ## Deploiement OVH Web Cloud
 
