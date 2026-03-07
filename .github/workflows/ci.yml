@@ -23,6 +23,8 @@ jobs:
           set -euo pipefail
           test -f index.html
           test -f realisations.html
+          test -f robots.txt
+          test -f sitemap.xml
           test -f assets/styles.css
           test -f assets/script.js
           test -f deploy/README_OVH.md

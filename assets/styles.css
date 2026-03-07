@@ -312,6 +312,7 @@ body {
   max-width: 65ch;
 }
 
+.section-heading h1,
 .section-heading h2 {
   margin: 0.55rem 0 0;
   font-family: "Cormorant Garamond", serif;
