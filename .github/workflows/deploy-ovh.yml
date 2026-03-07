@@ -44,6 +44,7 @@ jobs:
           cp index.html dist/index.html
           cp realisations.html dist/realisations.html
           cp contact.php dist/contact.php
+          cp googlea2e108a9069da8e3.html dist/googlea2e108a9069da8e3.html
           cp robots.txt dist/robots.txt
           cp sitemap.xml dist/sitemap.xml
           cp -R assets/. dist/assets/

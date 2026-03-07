@@ -23,6 +23,7 @@ jobs:
           set -euo pipefail
           test -f index.html
           test -f realisations.html
+          test -f googlea2e108a9069da8e3.html
           test -f robots.txt
           test -f sitemap.xml
           test -f assets/styles.css
