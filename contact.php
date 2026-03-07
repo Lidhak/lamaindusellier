@@ -43,7 +43,7 @@ $safeName = str_replace(["\r", "\n"], ' ', $name);
 $safeEmail = str_replace(["\r", "\n"], '', $email);
 
 $subject = 'Nouvelle demande devis - La Main du Sellier';
-$to = 'contact@lamaindusellier.fr';
+$to = 'lamaindusellier@outlook.fr';
 
 $ip = (string)($_SERVER['REMOTE_ADDR'] ?? 'inconnue');
 $userAgent = (string)($_SERVER['HTTP_USER_AGENT'] ?? 'inconnu');
